@@ -3,11 +3,16 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 .wrapper {
-  min-height: 100vh;
   background: black;
+  min-height: 100vh;
   color: rgb(212, 206, 206);
 }
+.mainLayout {
+  min-height: calc(100vh-10px);
+}
+
 /* .singUpPage {
   min-height: 90%;
   min-width: 90%;

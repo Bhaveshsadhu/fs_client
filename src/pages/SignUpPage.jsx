@@ -7,18 +7,17 @@ import { SignUpForm } from "../Components/SignUpForm";
 
 export const SignUpPage = () => {
   return (
-    <Container className="p-5 bg-dark ">
-      <Row className="m-5 g-2">
-        <Col
-          className="d-flex justify-content-center align-items-center"
-          md={6}
-        >
-          <FinanceQuotes></FinanceQuotes>
-        </Col>
-        <Col md={6}>
-          <SignUpForm></SignUpForm>
-        </Col>
-      </Row>
-    </Container>
+    <Row
+      style={{
+        overflow: "hidden",
+      }}
+    >
+      <Col className="d-flex justify-content-center align-items-center" md={6}>
+        <FinanceQuotes></FinanceQuotes>
+      </Col>
+      <Col md={6}>
+        <SignUpForm></SignUpForm>
+      </Col>
+    </Row>
   );
 };

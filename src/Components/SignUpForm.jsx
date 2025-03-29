@@ -57,24 +57,16 @@ export const SignUpForm = () => {
     toast[status](message);
   };
   return (
-    <div className="border rounded p-4">
-      <Form onSubmit={handleOnSubmit}>
-        <h4 className="mb-4" style={{ color: "#FFB22C" }}>
-          Sign Up Now!!!
-        </h4>
-        {fields.map((input) => (
-          <CustomeInputs
-            key={input.name}
-            {...input}
-            onChange={handleOnChange}
-          />
-        ))}
-        <div className="d-grid">
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </div>
-      </Form>
-    </div>
+    <Form onSubmit={handleOnSubmit} className="border rounded ps-4 pe-4 p-2">
+      <h4 style={{ color: "#FFB22C" }}>Sign Up Now!!!</h4>
+      {fields.map((input) => (
+        <CustomeInputs key={input.name} {...input} onChange={handleOnChange} />
+      ))}
+      <div className="d-grid">
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </div>
+    </Form>
   );
 };

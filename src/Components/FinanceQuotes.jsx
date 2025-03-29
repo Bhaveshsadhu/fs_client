@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaMoneyBillTrendUp } from "react-icons/fa6";
 const financialTips = [
   {
     quote:
@@ -70,6 +71,16 @@ export const FinanceQuotes = () => {
   }, []);
   return (
     <div>
+      <div
+        style={{
+          fontSize: "10rem",
+          fontWeight: "bolder",
+          color: "white",
+          textAlign: "center",
+        }}
+      >
+        <FaMoneyBillTrendUp />
+      </div>
       <h4>{tip}</h4>
       <div className="fw-bolder">
         "{quote}" <br></br>-{author}
