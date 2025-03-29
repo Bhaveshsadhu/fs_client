@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.wrapper {
+  min-height: 100vh;
+  background: black;
+  color: rgb(212, 206, 206);
+}
+/* .singUpPage {
+  min-height: 90%;
+  min-width: 90%;
+} */
