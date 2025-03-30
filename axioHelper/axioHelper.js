@@ -8,7 +8,6 @@ const apiProcessor = async ({ method, url, data }) => {
       url,
       data,
     });
-    console.log(res);
     return res.data;
   } catch (error) {
     return {
@@ -22,11 +21,10 @@ export const addUser = (userObj) => {
   try {
     const obj = {
       method: "post",
-      url: APIEP + "users",
+      url: APIEP + "users/signup",
       data: userObj,
     };
     const res = apiProcessor(obj);
-    console.log(res);
     return res;
   } catch (error) {
     return {

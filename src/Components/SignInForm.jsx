@@ -3,10 +3,14 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { CustomeInputs } from "./CustomeInputs";
 import { toast } from "react-toastify";
+import useForm from "../hooks/useForm";
 // import { addUser } from "../../axioHelper/axioHelper";
-
+const initialState = {
+  email: "",
+  password: "",
+};
 export const SignInForm = () => {
-  const [form, setFrom] = useState({});
+  const { form, setForm, handleOnChange } = useForm(initialState);
   const fields = [
     {
       label: "Email",
@@ -23,25 +27,16 @@ export const SignInForm = () => {
       name: "password",
     },
   ];
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setFrom({
-      ...form,
-      [name]: value,
-    });
-  };
+  // const handleOnChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFrom({
+  //     ...form,
+  //     [name]: value,
+  //   });
+  // };
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     console.log(form);
-    // const { Confirmpassword, ...rest } = form;
-    // if (Confirmpassword != rest.password) {
-    //   toast.error("Password dosen't Match..");
-    //   return;
-    // }
-    // const { status, message } = await addUser(rest);
-    // console.log(status, message);
-
-    // toast[status](message);
   };
   return (
     <div className="border rounded p-3">

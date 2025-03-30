@@ -1,12 +1,18 @@
-import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { CustomeInputs } from "./CustomeInputs";
 import { toast } from "react-toastify";
 import { addUser } from "../../axioHelper/axioHelper";
-
+import useForm from "../hooks/useForm";
+const initialState = {
+  name: "",
+  email: "",
+  password: "",
+  Confirmpassword: "",
+};
 export const SignUpForm = () => {
-  const [form, setFrom] = useState({});
+  const { form, setForm, handleOnChange } = useForm(initialState);
+  // const [form, setFrom] = useState({});
   const fields = [
     {
       label: "Name",
@@ -14,6 +20,7 @@ export const SignUpForm = () => {
       required: true,
       type: "text",
       name: "name",
+      value: form.name,
     },
     {
       label: "Email",
@@ -21,6 +28,7 @@ export const SignUpForm = () => {
       required: true,
       type: "email",
       name: "email",
+      value: form.email,
     },
     {
       label: "Password",
@@ -28,6 +36,7 @@ export const SignUpForm = () => {
       required: true,
       type: "password",
       name: "password",
+      value: form.password,
     },
     {
       label: "Confirm Password",
@@ -35,15 +44,16 @@ export const SignUpForm = () => {
       required: true,
       type: "password",
       name: "Confirmpassword",
+      value: form.Confirmpassword,
     },
   ];
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setFrom({
-      ...form,
-      [name]: value,
-    });
-  };
+  // const handleOnChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFrom({
+  //     ...form,
+  //     [name]: value,
+  //   });
+  // };
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     const { Confirmpassword, ...rest } = form;
@@ -52,9 +62,8 @@ export const SignUpForm = () => {
       return;
     }
     const { status, message } = await addUser(rest);
-    console.log(status, message);
-
     toast[status](message);
+    status === "success" && setForm(initialState);
   };
   return (
     <Form onSubmit={handleOnSubmit} className="border rounded ps-4 pe-4 p-2">
