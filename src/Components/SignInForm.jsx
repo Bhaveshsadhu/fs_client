@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { CustomeInputs } from "./CustomeInputs";
 import { toast } from "react-toastify";
 import useForm from "../hooks/useForm";
+import { userLogin } from "../../axioHelper/axioHelper";
+import { useUser } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 // import { addUser } from "../../axioHelper/axioHelper";
 const initialState = {
   email: "",
   password: "",
 };
 export const SignInForm = () => {
+  const navigate = useNavigate();
   const { form, setForm, handleOnChange } = useForm(initialState);
+  const { user, setUser } = useUser();
   const fields = [
     {
       label: "Email",
@@ -27,16 +32,26 @@ export const SignInForm = () => {
       name: "password",
     },
   ];
-  // const handleOnChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFrom({
-  //     ...form,
-  //     [name]: value,
-  //   });
-  // };
+
+  useEffect(() => {
+    user?._id && navigate("/dashboard");
+  }, [user?._id, navigate]);
+
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
+    try {
+      const pendingResp = userLogin(form);
+      toast.promise(pendingResp, {
+        pending: "Please Wait..",
+      });
+      const { status, message, user, token } = await pendingResp;
+      status === "success" ? toast[status](message) : toast[status](message);
+      setUser(user);
+      // localStorage.setItem(user._id, token);
+      // console.log(localStorage.getItem(user._id));
+    } catch (error) {
+      toast[error.status](error.message);
+    }
   };
   return (
     <div className="border rounded p-3">

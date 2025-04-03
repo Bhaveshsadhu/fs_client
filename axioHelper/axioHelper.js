@@ -33,3 +33,20 @@ export const addUser = (userObj) => {
     };
   }
 };
+// user Login
+export const userLogin = (userObj) => {
+  try {
+    const obj = {
+      method: "post",
+      url: APIEP + "users/login",
+      data: userObj,
+    };
+    const res = apiProcessor(obj);
+    return res;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};

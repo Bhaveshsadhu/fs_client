@@ -7,6 +7,8 @@ import { IoIosLogIn } from "react-icons/io";
 import { IoExitOutline } from "react-icons/io5";
 import { IoPersonAdd } from "react-icons/io5";
 import { SiMoneygram } from "react-icons/si";
+import { AiTwotoneDashboard } from "react-icons/ai";
+import { CiBank } from "react-icons/ci";
 
 export const Header = () => {
   return (
@@ -31,6 +33,12 @@ export const Header = () => {
             </Link>
             <Link to="/signup" className="text-white nav-link">
               SignUp <IoPersonAdd />
+            </Link>
+            <Link to="/dashboard" className="text-white nav-link">
+              DashBoard <AiTwotoneDashboard />
+            </Link>
+            <Link to="/transcation" className="text-white nav-link">
+              Transcation <CiBank />
             </Link>
             <Link to="/logout" className="text-white nav-link">
               LogOut <IoExitOutline />
