@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import useForm from "../hooks/useForm";
 import { userLogin } from "../../axioHelper/axioHelper";
 import { useUser } from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // import { addUser } from "../../axioHelper/axioHelper";
 const initialState = {
   email: "",
@@ -14,6 +14,9 @@ const initialState = {
 };
 export const SignInForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  // console.log(location);
+
   const { form, setForm, handleOnChange } = useForm(initialState);
   const { user, setUser } = useUser();
   const fields = [
@@ -32,10 +35,10 @@ export const SignInForm = () => {
       name: "password",
     },
   ];
-
+  const goto = location?.state?.from?.pathname || "/dashboard";
   useEffect(() => {
-    user?._id && navigate("/dashboard");
-  }, [user?._id, navigate]);
+    user?._id && navigate(goto);
+  }, [user?._id, navigate, goto]);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -46,8 +49,11 @@ export const SignInForm = () => {
       });
       const { status, message, user, token } = await pendingResp;
       status === "success" ? toast[status](message) : toast[status](message);
+      console.log(pendingResp);
       setUser(user);
-      // localStorage.setItem(user._id, token);
+      localStorage.setItem("accessJWT", token);
+      // console.log(user);
+      // navigate("/dashboard");
       // console.log(localStorage.getItem(user._id));
     } catch (error) {
       toast[error.status](error.message);

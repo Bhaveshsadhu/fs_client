@@ -9,7 +9,7 @@ export const DashBoard = () => {
         overflow: "hidden",
       }}
     >
-      <Col className="d-flex justify-content-center align-items-center" md={12}>
+      <Col className="d-flex justify-content-center align-items-center" md={6}>
         <h1>ToDo Dashboard</h1>
       </Col>
     </Row>
