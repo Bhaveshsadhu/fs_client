@@ -49,7 +49,7 @@ export const SignInForm = () => {
       });
       const { status, message, user, token } = await pendingResp;
       status === "success" ? toast[status](message) : toast[status](message);
-      console.log(pendingResp);
+      // console.log(pendingResp);
       setUser(user);
       localStorage.setItem("accessJWT", token);
       // console.log(user);

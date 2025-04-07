@@ -9,7 +9,7 @@ const apiProcessor = async ({ method, url, data, authorization = "" }) => {
     if (authorization) {
       headers.authorization = authorization;
     }
-    // console.log("From axio helper:" + method, url, data, authorization);
+    console.log("From axio helper:" + method, url, data, authorization);
     const res = await axios({
       method,
       url,
@@ -76,6 +76,27 @@ export const getUser = async (authorization) => {
   } catch (error) {
     return {
       status: "error",
+      message: error.message,
+    };
+  }
+};
+
+// Add new transcation
+
+export const addTranscation = async (transObj, authorization) => {
+  try {
+    const obj = {
+      method: "post",
+      url: APIEP + "transcations",
+      data: transObj,
+      authorization,
+    };
+    
+    const result = await apiProcessor(obj);
+    return result;
+  } catch (error) {
+    return {
+      error: "error",
       message: error.message,
     };
   }
