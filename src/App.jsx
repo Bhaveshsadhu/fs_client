@@ -11,6 +11,8 @@ import Auth from "./Components/auth/Auth";
 import { useEffect } from "react";
 import { getUser } from "../axioHelper/axioHelper";
 import { useUser } from "./context/UserContext";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 // import { useUser } from "./context/UserContext";
 
 function App() {

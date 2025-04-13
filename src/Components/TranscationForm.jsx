@@ -3,8 +3,9 @@ import useForm from "../hooks/useForm";
 import Form from "react-bootstrap/Form";
 import { CustomeInputs } from "./CustomeInputs";
 import Button from "react-bootstrap/Button";
-import { addTranscation } from "../../axioHelper/axioHelper";
+import { addTranscation, getAllTranscation } from "../../axioHelper/axioHelper";
 import { toast } from "react-toastify";
+import { useUser } from "../context/UserContext";
 
 const initialState = {
   type: "",
@@ -14,6 +15,7 @@ const initialState = {
 };
 export const TranscationForm = () => {
   const { form, setForm, handleOnChange } = useForm(initialState);
+  const { getUsersTranscations } = useUser();
   const fields = [
     {
       label: "Title",
@@ -44,20 +46,27 @@ export const TranscationForm = () => {
       e.preventDefault();
       // console.log(form);
       const token = localStorage.getItem("accessJWT");
+      // console.log(form);
       const res = addTranscation(form, token);
       toast.promise(res, {
         pending: "Please Wait",
       });
       const { status, message } = await res;
 
-      status === "success" ? toast[status](message) : toast[status](message);
+      toast[status](message);
+      status === "success" && setForm(initialState);
+
+      // get all Transcation
+      // const allTranscation = await getAllTranscation(token);
+      getUsersTranscations();
+      // console.log(allTranscation);
     } catch (error) {
       toast[error.status](error.message);
     }
   };
   return (
     <Form onSubmit={handleOnSubmit} className="border rounded ps-4 pe-4 p-2">
-      <h4 style={{ color: "#FFB22C" }}>Add Your Transcation Details</h4>
+      {/* <h4 style={{ color: "#FFB22C" }}>Add Your Transcation Details</h4> */}
       <Form.Group className="mb-2" controlId="formBasicEmail">
         <Form.Label>Transcation Type</Form.Label>
         <Form.Select name="type" onChange={handleOnChange} required>

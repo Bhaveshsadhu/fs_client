@@ -9,7 +9,7 @@ const apiProcessor = async ({ method, url, data, authorization = "" }) => {
     if (authorization) {
       headers.authorization = authorization;
     }
-    console.log("From axio helper:" + method, url, data, authorization);
+    // console.log("From axio helper:" + method, url, data, authorization);
     const res = await axios({
       method,
       url,
@@ -91,12 +91,48 @@ export const addTranscation = async (transObj, authorization) => {
       data: transObj,
       authorization,
     };
-    
+    // console.log(transObj);
     const result = await apiProcessor(obj);
     return result;
   } catch (error) {
     return {
-      error: "error",
+      status: "error",
+      message: error.message,
+    };
+  }
+};
+//Get all Transcation for specific user
+export const getAllTranscation = async (authorization) => {
+  try {
+    const obj = {
+      method: "get",
+      url: APIEP + "transcations",
+      authorization,
+    };
+
+    const result = await apiProcessor(obj);
+    return result;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};
+export const deleteTranscations = async (authorization, idsToDelete) => {
+  try {
+    const obj = {
+      method: "delete",
+      url: APIEP + "transcations",
+      authorization,
+      data: idsToDelete,
+    };
+    // console.log(obj);
+    const result = await apiProcessor(obj);
+    return result;
+  } catch (error) {
+    return {
+      status: "error",
       message: error.message,
     };
   }
