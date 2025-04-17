@@ -8,6 +8,8 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [transcations, setTranscations] = useState([]);
   const [show, setShow] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
 
   const toggleModal = (value) => setShow(value);
   const getUsersTranscations = async () => {
@@ -32,6 +34,8 @@ export const UserProvider = ({ children }) => {
         getUsersTranscations,
         show,
         toggleModal,
+        isSubmitting,
+        setIsSubmitting
       }}
     >
       {children}

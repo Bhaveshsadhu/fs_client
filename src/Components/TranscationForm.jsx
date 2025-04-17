@@ -3,7 +3,7 @@ import useForm from "../hooks/useForm";
 import Form from "react-bootstrap/Form";
 import { CustomeInputs } from "./CustomeInputs";
 import Button from "react-bootstrap/Button";
-import { addTranscation, getAllTranscation } from "../../axioHelper/axioHelper";
+import { addTranscation } from "../../axioHelper/axioHelper";
 import { toast } from "react-toastify";
 import { useUser } from "../context/UserContext";
 
@@ -16,6 +16,7 @@ const initialState = {
 export const TranscationForm = () => {
   const { form, setForm, handleOnChange } = useForm(initialState);
   const { getUsersTranscations } = useUser();
+  const { isSubmitting, setIsSubmitting } = useUser();
   const fields = [
     {
       label: "Title",
@@ -44,9 +45,10 @@ export const TranscationForm = () => {
   const handleOnSubmit = async (e) => {
     try {
       e.preventDefault();
-      // console.log(form);
+     // Button disabled
+    setIsSubmitting(true); 
       const token = localStorage.getItem("accessJWT");
-      // console.log(form);
+     
       const res = addTranscation(form, token);
       toast.promise(res, {
         pending: "Please Wait",
@@ -56,17 +58,19 @@ export const TranscationForm = () => {
       toast[status](message);
       status === "success" && setForm(initialState);
 
-      // get all Transcation
-      // const allTranscation = await getAllTranscation(token);
+      
       getUsersTranscations();
-      // console.log(allTranscation);
+      
     } catch (error) {
       toast[error.status](error.message);
+    }
+    finally{
+      setIsSubmitting(false); // Re-enable form after response
     }
   };
   return (
     <Form onSubmit={handleOnSubmit} className="border rounded ps-4 pe-4 p-2">
-      {/* <h4 style={{ color: "#FFB22C" }}>Add Your Transcation Details</h4> */}
+      
       <Form.Group className="mb-2" controlId="formBasicEmail">
         <Form.Label>Transcation Type</Form.Label>
         <Form.Select name="type" onChange={handleOnChange} required>
@@ -79,8 +83,8 @@ export const TranscationForm = () => {
         <CustomeInputs key={input.name} {...input} onChange={handleOnChange} />
       ))}
       <div className="d-grid">
-        <Button variant="primary" type="submit">
-          Submit
+      <Button variant="primary" type="submit" disabled={isSubmitting} >
+        {isSubmitting ? "Submitting..." : "Submit"}
         </Button>
       </div>
     </Form>

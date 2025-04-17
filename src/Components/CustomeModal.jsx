@@ -12,7 +12,7 @@ export const CustomeModal = ({ children }) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          {/* <h4 style={{ color: "#FFB22C" }}>{props.heading}</h4> */}
+         
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>

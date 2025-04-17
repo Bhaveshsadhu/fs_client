@@ -7,7 +7,7 @@ import useForm from "../hooks/useForm";
 import { userLogin } from "../../axioHelper/axioHelper";
 import { useUser } from "../context/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
-// import { addUser } from "../../axioHelper/axioHelper";
+
 const initialState = {
   email: "",
   password: "",
@@ -15,7 +15,8 @@ const initialState = {
 export const SignInForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  // console.log(location);
+  const { isSubmitting, setIsSubmitting } = useUser();
+  
 
   const { form, setForm, handleOnChange } = useForm(initialState);
   const { user, setUser } = useUser();
@@ -42,6 +43,8 @@ export const SignInForm = () => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    // Button disabled
+    setIsSubmitting(true); 
     try {
       const pendingResp = userLogin(form);
       toast.promise(pendingResp, {
@@ -49,14 +52,15 @@ export const SignInForm = () => {
       });
       const { status, message, user, token } = await pendingResp;
       status === "success" ? toast[status](message) : toast[status](message);
-      // console.log(pendingResp);
+     
       setUser(user);
       localStorage.setItem("accessJWT", token);
-      // console.log(user);
-      // navigate("/dashboard");
-      // console.log(localStorage.getItem(user._id));
+      
     } catch (error) {
       toast[error.status](error.message);
+    }
+    finally{
+      setIsSubmitting(false); // Re-enable form after response
     }
   };
   return (
@@ -74,9 +78,9 @@ export const SignInForm = () => {
           />
         ))}
         <div className="d-grid">
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
+        <Button variant="primary" type="submit" disabled={isSubmitting} >
+        {isSubmitting ? "Submitting..." : "Submit"}
+        </Button>
         </div>
       </Form>
     </div>

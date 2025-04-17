@@ -1,24 +1,25 @@
 import axios from "axios";
-const APIEP = "http://localhost:8000/api/v1/";
+const APIEP = import.meta.env.VITE_ROOT_API + "/api/v1/";
 
 const apiProcessor = async ({ method, url, data, authorization = "" }) => {
   try {
-    // console.log(authorization);
+    
     const headers = {};
 
     if (authorization) {
       headers.authorization = authorization;
     }
-    // console.log("From axio helper:" + method, url, data, authorization);
+   
     const res = await axios({
       method,
       url,
       data,
       headers,
     });
-    // console.log(res.data);
+    // console.log(res);
     return res.data;
   } catch (error) {
+    // console.log(error);
     return {
       status: "error",
       message: error.message,
@@ -34,6 +35,7 @@ export const addUser = (userObj) => {
       data: userObj,
     };
     const res = apiProcessor(obj);
+    
     return res;
   } catch (error) {
     return {
@@ -51,7 +53,7 @@ export const userLogin = async (userObj) => {
       data: userObj,
     };
     const res = await apiProcessor(obj);
-    // console.log(res);
+   
     return res;
   } catch (error) {
     return {
@@ -69,9 +71,9 @@ export const getUser = async (authorization) => {
       data: "",
       authorization,
     };
-    // console.log(obj);
+    
     const res = await apiProcessor(obj);
-    // console.log(res);
+   
     return res;
   } catch (error) {
     return {
@@ -91,7 +93,7 @@ export const addTranscation = async (transObj, authorization) => {
       data: transObj,
       authorization,
     };
-    // console.log(transObj);
+   
     const result = await apiProcessor(obj);
     return result;
   } catch (error) {
@@ -127,7 +129,7 @@ export const deleteTranscations = async (authorization, idsToDelete) => {
       authorization,
       data: idsToDelete,
     };
-    // console.log(obj);
+  
     const result = await apiProcessor(obj);
     return result;
   } catch (error) {

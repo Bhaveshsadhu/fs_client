@@ -13,11 +13,6 @@
   min-height: calc(100vh-10px);
 }
 
-/* .singUpPage {
-  min-height: 90%;
-  min-width: 90%;
-} */
-
 table thead tr th {
   background: transparent !important;
   color: white !important;

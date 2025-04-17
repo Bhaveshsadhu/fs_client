@@ -4,6 +4,7 @@ import { CustomeInputs } from "./CustomeInputs";
 import { toast } from "react-toastify";
 import { addUser } from "../../axioHelper/axioHelper";
 import useForm from "../hooks/useForm";
+import { useUser } from "../context/UserContext";
 const initialState = {
   name: "",
   email: "",
@@ -12,7 +13,7 @@ const initialState = {
 };
 export const SignUpForm = () => {
   const { form, setForm, handleOnChange } = useForm(initialState);
-  // const [form, setFrom] = useState({});
+  const { isSubmitting, setIsSubmitting } = useUser();
   const fields = [
     {
       label: "Name",
@@ -47,23 +48,29 @@ export const SignUpForm = () => {
       value: form.Confirmpassword,
     },
   ];
-  // const handleOnChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFrom({
-  //     ...form,
-  //     [name]: value,
-  //   });
-  // };
+ 
   const handleOnSubmit = async (e) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
+    // Button disabled
+    setIsSubmitting(true); 
+    console.log("Button disabled");
     const { Confirmpassword, ...rest } = form;
     if (Confirmpassword != rest.password) {
       toast.error("Password dosen't Match..");
+      setIsSubmitting(false); 
       return;
     }
     const { status, message } = await addUser(rest);
     toast[status](message);
     status === "success" && setForm(initialState);
+    } catch (error) {
+      toast[error.status || "error"](error.message || "Something went wrong");
+    }
+    finally{
+      setIsSubmitting(false); // Re-enable form after response
+    }
+    
   };
   return (
     <Form onSubmit={handleOnSubmit} className="border rounded ps-4 pe-4 p-2">
@@ -72,8 +79,8 @@ export const SignUpForm = () => {
         <CustomeInputs key={input.name} {...input} onChange={handleOnChange} />
       ))}
       <div className="d-grid">
-        <Button variant="primary" type="submit">
-          Submit
+        <Button variant="primary" type="submit" disabled={isSubmitting} >
+        {isSubmitting ? "Submitting..." : "Submit"}
         </Button>
       </div>
     </Form>

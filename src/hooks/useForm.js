@@ -9,14 +9,12 @@ const handleOnChange = ({ e, form, setForm }) => {
 };
 const useForm = (initialState) => {
   const [form, setForm] = useState(initialState);
-  // console.log(form);
+  
   return {
     form,
     setForm,
     handleOnChange: (e) => handleOnChange({ e, form, setForm }),
-    // handleOnChange: function (e) {
-    //   return handleOnChange({ e, form, setForm });
-    // },
+    
   };
 };
 export default useForm;
