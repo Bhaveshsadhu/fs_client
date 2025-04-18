@@ -9,6 +9,8 @@ export const UserProvider = ({ children }) => {
   const [transcations, setTranscations] = useState([]);
   const [show, setShow] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUpdate,setIsUpdate]=useState(false);
+  
 
 
   const toggleModal = (value) => setShow(value);
@@ -35,7 +37,9 @@ export const UserProvider = ({ children }) => {
         show,
         toggleModal,
         isSubmitting,
-        setIsSubmitting
+        setIsSubmitting,
+        isUpdate,
+        setIsUpdate
       }}
     >
       {children}

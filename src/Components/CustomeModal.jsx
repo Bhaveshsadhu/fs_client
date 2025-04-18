@@ -5,6 +5,7 @@ export const CustomeModal = ({ children }) => {
   return (
     <Modal
       show={show}
+      
       onHide={() => toggleModal(false)}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"

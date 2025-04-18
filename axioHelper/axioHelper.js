@@ -139,3 +139,48 @@ export const deleteTranscations = async (authorization, idsToDelete) => {
     };
   }
 };
+
+// Update transcation
+
+export const updateTranscation = async (transObj, authorization) => {
+  try {
+    const obj = {
+      method: "patch",
+      url: APIEP + "transcations",
+      data: transObj,
+      authorization,
+    };
+   
+    const result = await apiProcessor(obj);
+    return result;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};
+
+// get map data
+
+export const getMapData = async (authorization) => {
+  try {
+     // const { data } = await axios.get(`/api/transactions/summary/${userId}`);
+    const obj = {
+      method: "get",
+      url: APIEP + "transcations/summary",
+      data: "",
+      authorization,
+    };
+    
+    const res = await apiProcessor(obj);
+    // console.log(res);
+   
+    return res;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};

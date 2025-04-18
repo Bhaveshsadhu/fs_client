@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import { FaPlusCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Pagination from 'react-bootstrap/Pagination';
+import { BiEditAlt } from "react-icons/bi";
 
 import { useUser } from "../context/UserContext";
 import { CustomeModal } from "./CustomeModal";
@@ -13,11 +14,12 @@ import { deleteTranscations } from "../../axioHelper/axioHelper";
 
 export const TranscationTable = () => {
   const [searchTranscation, setSearchTranscation] = useState([]);
-  const { transcations, toggleModal } = useUser();
+  const { transcations, toggleModal, setIsUpdate } = useUser();
   const [income, setIncome] = useState(0);
   const [expenses, setExpenses] = useState(0);
   const [saving, setSaving] = useState(0);
   const [idsToDelete, SetIdsToDelete] = useState([]);
+  const [editItem, setEditItem] = useState(null);
 
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
@@ -95,6 +97,8 @@ export const TranscationTable = () => {
     }
   };
 
+  // console.log(editItem);
+
   return (
     <>
       <div className="d-flex justify-content-between mb-4">
@@ -115,12 +119,12 @@ export const TranscationTable = () => {
             <FaPlusCircle /> Add Transcation(s)
           </Button>
           <CustomeModal>
-            <TranscationForm />
+            <TranscationForm data={editItem}/>
           </CustomeModal>
         </div>
       </div>
 
-      <Table striped bordered hover>
+      <Table striped bordered hover className="text-center">
         <thead>
           <tr>
             <th>#</th>
@@ -141,6 +145,7 @@ export const TranscationTable = () => {
             <th>Title</th>
             <th>In</th>
             <th>Out</th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -168,6 +173,16 @@ export const TranscationTable = () => {
               <td className="text-danger">
                 {item.type === "expense" ? item.amount : ""}
               </td>
+              <td> <Button 
+              variant="primary" 
+              onClick={(e) => {
+                e.preventDefault();
+                setEditItem(item);
+                toggleModal(true);
+                setIsUpdate(true);
+                }}>
+              Edit <BiEditAlt /> 
+          </Button></td>
             </tr>
           ))}
 
